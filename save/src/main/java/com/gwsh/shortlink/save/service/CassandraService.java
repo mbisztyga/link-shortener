@@ -1,7 +1,7 @@
-package com.gwsh.shortlink.load.service;
+package com.gwsh.shortlink.save.service;
 
-import com.gwsh.shortlink.load.common.CassandraVariables;
 import com.datastax.oss.driver.api.core.CqlSession;
+import com.gwsh.shortlink.load.common.CassandraVariables;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;

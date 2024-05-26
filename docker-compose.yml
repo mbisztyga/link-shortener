@@ -1,0 +1,26 @@
+version: '2'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  cassandra:
+    image: 'bitnami/cassandra:latest'
+    networks:
+      - app-tier
+    environment:
+      CASSANDRA_USER: "casandra"
+      CASSANDRA_PASSWORD: "cassandra"
+  load:
+    build:
+      context: ./load
+    image: "load:latest"
+    networks:
+      - app-tier
+  save:
+    build:
+      context: ./save
+    image: "save:latest"
+    networks:
+      - app-tier

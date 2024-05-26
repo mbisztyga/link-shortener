@@ -1,4 +1,4 @@
-package com.gwsh.shortlink.load.data;
+package com.gwsh.shortlink.save.data;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;

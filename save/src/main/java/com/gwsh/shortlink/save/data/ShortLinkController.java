@@ -1,4 +1,4 @@
-package com.gwsh.shortlink.load.data;
+package com.gwsh.shortlink.save.data;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

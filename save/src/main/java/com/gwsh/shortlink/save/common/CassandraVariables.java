@@ -1,4 +1,4 @@
-package com.gwsh.shortlink.load.common;
+package com.gwsh.shortlink.save.common;
 
 public final class CassandraVariables {
     public static final String NODE = "0.0.0.0";
