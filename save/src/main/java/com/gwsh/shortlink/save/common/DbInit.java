@@ -1,44 +1,57 @@
-package com.gwsh.shortlink.load.common;
+package com.gwsh.shortlink.save.common;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.core.type.DataTypes;
 import com.datastax.oss.driver.api.querybuilder.SchemaBuilder;
 import com.datastax.oss.driver.api.querybuilder.schema.CreateTable;
-import com.gwsh.shortlink.load.service.CassandraService;
-import com.gwsh.shortlink.load.data.KeyspaceRepository;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+import com.gwsh.shortlink.save.data.repository.KeyspaceRepository;
+import com.gwsh.shortlink.save.service.CassandraService;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@Slf4j
+@RequiredArgsConstructor
 public class DbInit {
 
     private final CassandraService service;
 
-    @Autowired
-    public DbInit(CassandraService service) {
-        this.service = service;
+    @PostConstruct
+    private synchronized void initCassandra() {
+        createKeyspace();
+        createTable();
     }
 
-    @PostConstruct
     private void createKeyspace() {
+        log.info("Keyspace init");
         KeyspaceRepository keyspaceRepo = new KeyspaceRepository(service);
 
         keyspaceRepo.createKeyspace(CassandraVariables.KEYSPACE_1, 1);
         keyspaceRepo.useKeyspace(CassandraVariables.KEYSPACE_1);
+        log.info("Keyspace created");
     }
 
-    @PostConstruct
     private void createTable() {
+        log.info("Table init");
         CqlSession session = service.openSession(CassandraVariables.KEYSPACE_1);
-        CreateTable createTableStatement = SchemaBuilder.createTable("SHORT_LINKS")
+        SimpleStatement dropTableStatement = SchemaBuilder
+                .dropTable(CassandraVariables.KEYSPACE_1,"short_links")
+                .ifExists().build();
+        session.execute(dropTableStatement);
+        log.info("Table dropped if it existed");
+        CreateTable createTableStatement = SchemaBuilder
+                .createTable(CassandraVariables.KEYSPACE_1,"SHORT_LINKS")
                 .withPartitionKey("short_link", DataTypes.TEXT)
                 .withColumn("full_link", DataTypes.TEXT);
 
         SimpleStatement statement = createTableStatement.build().setKeyspace(CassandraVariables.KEYSPACE_1);
 
         session.execute(statement);
+        log.info("Table created");
 
         service.close();
     }

@@ -17,7 +17,7 @@ public class CassandraService {
 
     public CqlSession openSession(String keyspace) {
         session = CqlSession.builder()
-                .addContactPoint(new InetSocketAddress(CassandraVariables.NODE, CassandraVariables.PORT))
+                .addContactPoint(new InetSocketAddress("link-shortener-cassandra-1", CassandraVariables.PORT))
                 .withLocalDatacenter(CassandraVariables.DATACENTER_1)
                 .withAuthCredentials("cassandra", "cassandra")
                 .build();

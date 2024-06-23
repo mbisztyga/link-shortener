@@ -1,0 +1,12 @@
+docker run -d --name cassandra-1 -e CASSANDRA_USER="cassandra" -e CASSANDRA_PASSWORD="cassandra" --health-cmd="[ $$(nodetool statusgossip) = running ]" --health-interval=30s --health-timeout=10s --health-retries=5 -p 9042:9042 bitnami/cassandra:latest
+
+
+public CqlSession openSession(String keyspace) {
+        session = CqlSession.builder()
+                .addContactPoint(new InetSocketAddress("127.0.0.1", CassandraVariables.PORT))
+                .withLocalDatacenter(CassandraVariables.DATACENTER_1)
+                .withAuthCredentials("cassandra", "cassandra")
+                .build();
+
+        return session;
+    }
