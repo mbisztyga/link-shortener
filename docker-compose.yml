@@ -39,5 +39,17 @@ services:
     ports:
       - "8081:8081"
     depends_on:
-      load:
-        condition: service_started
+      cassandra:
+        condition: service_healthy
+  remove:
+    build:
+      context: ./remove
+    image: "remove:latest"
+    networks:
+      - app-tier
+    ports:
+      - "8083:8083"
+    depends_on:
+      cassandra:
+        condition: service_healthy
+

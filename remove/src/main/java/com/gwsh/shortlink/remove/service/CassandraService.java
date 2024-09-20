@@ -1,7 +1,7 @@
-package com.gwsh.shortlink.load.service;
+package com.gwsh.shortlink.remove.service;
 
-import com.gwsh.shortlink.load.common.CassandraVariables;
 import com.datastax.oss.driver.api.core.CqlSession;
+import com.gwsh.shortlink.remove.common.CassandraVariables;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class CassandraService {
 
     public CqlSession openSession(String keyspace) {
         session = CqlSession.builder()
-                .addContactPoint(new InetSocketAddress("cassandra", CassandraVariables.PORT))
+                .addContactPoint(new InetSocketAddress("link-shortener-cassandra-1", CassandraVariables.PORT))
                 .withLocalDatacenter(CassandraVariables.DATACENTER_1)
                 .withAuthCredentials("cassandra", "cassandra")
                 .build();
