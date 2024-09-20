@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.net.InetSocketAddress;
+import java.time.Duration;
 
 @Service
 @Component
@@ -20,6 +21,7 @@ public class CassandraService {
                 .addContactPoint(new InetSocketAddress("link-shortener-cassandra-1", CassandraVariables.PORT))
                 .withLocalDatacenter(CassandraVariables.DATACENTER_1)
                 .withAuthCredentials("cassandra", "cassandra")
+                .withKeyspace("ks1")
                 .build();
 
         return session;
