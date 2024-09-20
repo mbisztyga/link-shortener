@@ -38,10 +38,10 @@ public class DbInit {
     private void createTable() {
         log.info("Table init");
         CqlSession session = service.openSession(CassandraVariables.KEYSPACE_1);
-        SimpleStatement dropTableStatement = SchemaBuilder
-                .dropTable(CassandraVariables.KEYSPACE_1,"short_links")
-                .ifExists().build();
-        session.execute(dropTableStatement);
+//        SimpleStatement dropTableStatement = SchemaBuilder
+//                .dropTable(CassandraVariables.KEYSPACE_1,"short_links")
+//                .ifExists().build();
+//        session.execute(dropTableStatement);
         log.info("Table dropped if it existed");
         CreateTable createTableStatement = SchemaBuilder
                 .createTable(CassandraVariables.KEYSPACE_1,"SHORT_LINKS")
